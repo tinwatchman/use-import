@@ -1,0 +1,29 @@
+{
+  "name": "use-import",
+  "version": "0.0.1",
+  "description": "Get modules by name, not filepath",
+  "main": "useimport.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": {
+    "name": "Jon Stout",
+    "url": "http://www.jonstout.net"
+  },
+  "license": "MIT",
+  "keywords": [
+    "use",
+    "require",
+    "import",
+    "namespace",
+    "module"
+  ],
+  "dependencies": {
+    "findup": "^0.1.5",
+    "fs-extra": "^0.18.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.1"
+  }
+}
