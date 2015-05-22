@@ -70,6 +70,8 @@ var use = require('use-import').config({
 });
 ```
 
+## Code Examples
+
 ## Credits and Licensing
 
 Created by [Jon Stout](http://www.jonstout.net). Licensed under [the MIT license](http://opensource.org/licenses/MIT).

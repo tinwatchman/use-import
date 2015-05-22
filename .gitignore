@@ -1,4 +1,5 @@
 node_modules/*
+example/node_modules/*
 *.sublime-project
 *.sublime-workspace
 *.DS_Store

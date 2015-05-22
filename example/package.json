@@ -1,0 +1,19 @@
+{
+  "name": "use-import-example",
+  "version": "0.0.2",
+  "description": "Just a simple sample app used to demonstrate how use-import works",
+  "main": "example-app.js",
+  "scripts": {
+    "start": "node example-app.js",
+    "in-code-config": "node in-code-config-example.js"
+  },
+  "private": true,
+  "author": {
+    "name": "Jon Stout",
+    "url": "www.jonstout.net"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "use-import": ">=0.0.2"
+  }
+}
