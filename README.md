@@ -72,6 +72,8 @@ var use = require('use-import').config({
 
 ## Code Examples
 
+To see a working example of how to use `use-import` in a project, see [example/example-app.js](https://github.com/tinwatchman/use-import/blob/master/example/example-app.js) and [example/use.json](https://github.com/tinwatchman/use-import/blob/master/example/use.json). For an example of in-code configuration, see [example/in-code-config-example.js](https://github.com/tinwatchman/use-import/blob/master/example/in-code-config-example.js).
+
 ## Credits and Licensing
 
 Created by [Jon Stout](http://www.jonstout.net). Licensed under [the MIT license](http://opensource.org/licenses/MIT).
