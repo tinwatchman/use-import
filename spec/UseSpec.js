@@ -4,7 +4,6 @@ describe("UseImporter", function() {
     var path = require('path');
     var _ = require('underscore');
     
-
     it("should automatically create a global function called use when required", function() {
         expect(use).toBeDefined();
         expect(_.isFunction(use)).toBe(true);

@@ -103,5 +103,24 @@ describe("UseLoader", function() {
             expect(r.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
             expect(r.name3).toEqual("/Users/someone/project/lib/module3");
         });
+
+        it("should support srcDir in a project.json file", function() {
+            var baseFile = "/Users/someone/project/project.json";
+            var pathMap = {
+                'namespace': {
+                    'map': {
+                        'name1': './package/module1',
+                        'name2': './package/subpackage/module2',
+                        'name3': './lib/module3'
+                    }
+                },
+                'srcDir': './src'
+            };
+            var r = loader.resolveFileMap(baseFile, pathMap);
+            expect(r).not.toBeNull();
+            expect(r.name1).toEqual("/Users/someone/project/src/package/module1");
+            expect(r.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
+            expect(r.name3).toEqual("/Users/someone/project/src/lib/module3");
+        });
     });
 });

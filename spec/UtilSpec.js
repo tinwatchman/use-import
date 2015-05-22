@@ -80,4 +80,43 @@ describe("UseUtil", function() {
             expect(r).toEqual('./MyClass');
         });
     });
+
+    describe("hasBaseModule", function() {
+        it("should go up the module hierarchy until it finds a matching config", function() {
+            var modules = {
+                id: 'Module1',
+                filename: '/path/module1',
+                parent: {
+                    id: 'Module2',
+                    filename: '/path/module2',
+                    parent: {
+                        id: 'Module3',
+                        filename: '/path/module3',
+                        parent: undefined
+                    }
+                }
+            };
+            var map = {
+                'Module3': {}
+            };
+            var r = util.hasBaseModule(modules, map);
+            expect(r).toBe(true);
+        });
+    });
+
+    /* describe("isChildModule", function() {
+        it("should be able to tell if a module is a submodule of a different one", function() {
+            var baseModule = {id: 'BaseModule', filepath:''},
+                startModule = {
+                    id: 'StartModule',
+                    filepath: '',
+                    parent: {
+                        id: 'SubModule',
+                        filepath: '',
+                        parent: baseModule
+                    }
+                };
+            expect(util.isChildModule(startModule, baseModule)).toBe(true);
+        });
+    }); */
 });
