@@ -1,6 +1,6 @@
 {
   "name": "use-import",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Get modules by name, not filepath",
   "main": "useimport.js",
   "scripts": {
