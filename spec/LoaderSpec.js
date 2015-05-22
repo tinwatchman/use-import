@@ -3,6 +3,7 @@ describe("UseLoader", function() {
     var fs = require('fs-extra');
     var os = require('os');
     var path = require('path');
+    var UseMap = require('../lib/UseMap');
 
     var loader;
     var tmpDir = path.join(os.tmpdir(), "./UseLoaderJasmine" + Date.now() + "/");
@@ -71,56 +72,56 @@ describe("UseLoader", function() {
         });
     });
 
-    describe("resolveFileMap", function() {
-        it("should return a name-filepath map with the filepaths resolved to the project root directory", function() {
-            var baseFile = "/Users/someone/project/use.json";
-            var pathMap = {
-                'name1': './src/package/module1',
-                'name2': './src/package/subpackage/module2',
-                'name3': './lib/module3'
-            };
-            var r = loader.resolveFileMap(baseFile, pathMap);
-            expect(r).not.toBeNull();
-            expect(r.name1).toEqual("/Users/someone/project/src/package/module1");
-            expect(r.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
-            expect(r.name3).toEqual("/Users/someone/project/lib/module3");
+    describe("load", function() {
+        var root = path.join(tmpDir, './root/'),
+            rootPath = path.join(root, './index.js');
+
+        beforeEach(function() {
+            fs.ensureDirSync(root);
         });
 
-        it("should return the same results with a project.json file", function() {
-            var baseFile = "/Users/someone/project/project.json";
-            var pathMap = {
-                'namespace': {
-                    'map': {
-                        'name1': './src/package/module1',
-                        'name2': './src/package/subpackage/module2',
-                        'name3': './lib/module3'
-                    }
-                }
-            };
-            var r = loader.resolveFileMap(baseFile, pathMap);
-            expect(r).not.toBeNull();
-            expect(r.name1).toEqual("/Users/someone/project/src/package/module1");
-            expect(r.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
-            expect(r.name3).toEqual("/Users/someone/project/lib/module3");
+        afterEach(function() {
+            fs.removeSync(root);
         });
 
-        it("should support srcDir in a project.json file", function() {
-            var baseFile = "/Users/someone/project/project.json";
-            var pathMap = {
-                'namespace': {
-                    'map': {
-                        'name1': './package/module1',
-                        'name2': './package/subpackage/module2',
-                        'name3': './lib/module3'
-                    }
-                },
-                'srcDir': './src'
-            };
-            var r = loader.resolveFileMap(baseFile, pathMap);
-            expect(r).not.toBeNull();
-            expect(r.name1).toEqual("/Users/someone/project/src/package/module1");
-            expect(r.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
-            expect(r.name3).toEqual("/Users/someone/project/src/lib/module3");
+        it("should configure a UseMap object with data from a use.json file", function() {
+            // set up
+            var configFilePath = path.join(root, "./use.json"),
+                useMap = new UseMap();
+            fs.writeJsonSync(configFilePath, {"name": "./path"});
+            // load
+            var result = loader.load(rootPath, useMap);
+            expect(result).toBe(true);
+            expect(useMap.isConfigured).toBe(true);
+            expect(root.indexOf(useMap.rootDir)).toEqual(0); // starting slash issue here
+            expect(useMap.map.name).toEqual(path.join(root, "./path"));
         });
+
+        it("should be able to handle data from a project.json file", function() {
+            var useMap = new UseMap(),
+                configPath = path.join(root, "./project.json"),
+                projectData = {
+                    "namespace": {
+                        "map": {
+                            "name": "./path"
+                        }
+                    },
+                    "srcDir": "./src"
+                };
+            fs.writeJsonSync(configPath, projectData);
+            // load
+            var result = loader.load(rootPath, useMap);
+            expect(result).toBe(true);
+            expect(useMap.isConfigured).toBe(true);
+            expect(useMap.map.name).toEqual(path.join(root, "./src", "./path"));
+        });
+
+        it("should return false when a config file isn't found", function() {
+            var useMap = new UseMap();
+            var result = loader.load(rootPath, useMap);
+            expect(result).toBe(false);
+            expect(useMap.isConfigured).toBe(false);
+        });
+
     });
 });

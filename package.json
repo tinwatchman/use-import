@@ -1,6 +1,6 @@
 {
   "name": "use-import",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get modules by name, not filepath",
   "main": "useimport.js",
   "scripts": {
@@ -11,6 +11,10 @@
     "url": "http://www.jonstout.net"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinwatchman/use-import.git"
+  },
   "keywords": [
     "use",
     "require",
