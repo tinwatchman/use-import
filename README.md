@@ -21,7 +21,7 @@ To configure your project's names, create a new file in your project's root dire
     "MyClass": "./src/data/MyClass",
     "MyOtherClass": "./src/model/MyOtherClass"
 
-    // all file paths need to be expressed relative to the project's 
+    // all file paths should be expressed relative to the project's 
     // root directory
 }
 ```
@@ -35,7 +35,9 @@ For another way to handle configuration, see [In-Code Configuration](#in_code_co
 Add the following code to the top of your project's main script or entry point:
 
 ```javascript
-// This call is REQUIRED in order to make `use-import` work when using a use.json file!
+// This call is REQUIRED at the start of the application
+// in order to make `use-import` work when using a use.json 
+// file for configuration!
 var use = require('use-import').load();
 ```
 
