@@ -32,10 +32,17 @@ module.exports = (function() {
         /**
          * Loads config information from a use.json or project.json file on the
          * requesting module's filepath
-         * @return {Function} Returns the use function. Useful for chaining.
+         * @param  {String} filePath Optional. Path to a specific JSON config 
+         *                           file to load.
+         * @return {Function}        Returns the use function. Useful for 
+         *                           chaining.
          */
         this.use.load = function() {
-            self.load();
+            if (arguments.length > 0) {
+                self.load(arguments[0]);
+            } else {
+                self.load();
+            }
             return self.use;
         };
 
@@ -61,12 +68,41 @@ module.exports = (function() {
             return self.use;
         };
 
+        /**
+         * Returns the relative file path for the given name
+         * @param  {String} name Valid name for a module
+         * @return {String}      Filepath if found, undefined otherwise
+         */
+        this.use.resolve = function(name) {
+            if (!useMap.isConfigured) {
+                return undefined;
+            }
+            return useMap.getPath(name);
+        };
+
+        /* getter for isLoaded */
+        this.use.__defineGetter__('isLoaded', function() {
+            return useMap.isConfigured;
+        });
+
+
         // protected functions
 
         this.load = function() {
-            if (!useMap.isConfigured) {
+            // check for filePath property
+            var filePath;
+            if (arguments.length > 0 && !_.isEmpty(arguments[0])) {
+                filePath = arguments[0];
+            }
+            if (!useMap.isConfigured || 
+                (!_.isUndefined(filePath) && !useMap.isFileLoaded(filePath))) {
                 var loader = new UseLoader();
-                var r = loader.load(module.parent.filename, useMap);
+                var r;
+                if (!_.isUndefined(filePath)) {
+                    r = loader.loadFile(filePath, useMap);
+                } else {
+                    r = loader.load(module.parent.filename, useMap);
+                }
                 if (!r) {
                     throw new Error("USE_IMPORTER_CONFIG_FILE_NOT_FOUND");
                 }

@@ -1,7 +1,7 @@
 # use-import
 > Imports modules by name instead of by filepath
 
-Tired of dealing with lengthy relative file paths in your `require` statements? This module gives your project files access to the `use` function, enabling you to import modules by name rather than by filepath. Module names are configured either via a JSON file placed in the project's root directory or via an object passed in at application startup.
+Tired of dealing with lengthy relative file paths in your `require` statements? This module gives your project files access to the `use` function, enabling you to import modules by name rather than by filepath. Module names are configured either via a JSON file placed in the project's root directory or an object passed in at application startup.
 
 ## Installation
 

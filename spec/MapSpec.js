@@ -13,7 +13,9 @@ describe("UseMap", function() {
                 'name2': './src/package/subpackage/module2',
                 'name3': './lib/module3'
             };
-            useMap.config(nameMap, "/Users/someone/project/");
+            useMap.config(nameMap, {
+                rootDir: "/Users/someone/project/"
+            });
             expect(useMap.isConfigured).toBe(true);
             expect(useMap.length).toEqual(3);
             expect(useMap.map.name1).toEqual("/Users/someone/project/src/package/module1");
@@ -25,7 +27,9 @@ describe("UseMap", function() {
             var nameMap = {
                 'name1': './src/package/module1'
             };
-            useMap.config(nameMap, "/Users/someone/project/");
+            useMap.config(nameMap, {
+                rootDir: "/Users/someone/project/"
+            });
             expect(useMap.isConfigured).toBe(true);
             expect(useMap.rootDir).not.toBeNull();
             expect(useMap.rootDir).toEqual("/Users/someone/project/");
@@ -39,7 +43,9 @@ describe("UseMap", function() {
                     'name2': './src/package/subpackage/module2',
                     'name3': './lib/module3'
                 };
-            useMap.config(map1, "/Users/someone/project/");
+            useMap.config(map1, {
+                rootDir: "/Users/someone/project/"
+            });
             useMap.config(map2);
             expect(useMap.isConfigured).toBe(true);
             expect(useMap.length).toEqual(3);
@@ -56,8 +62,12 @@ describe("UseMap", function() {
                     'name2': './package/subpackage/module2',
                     'name3': './module3'
                 };
-            useMap.config(map1, "/Users/someone/project/");
-            useMap.config(map2, "/Users/someone/project/subproj/");
+            useMap.config(map1, {
+                rootDir: "/Users/someone/project/"
+            });
+            useMap.config(map2, {
+                rootDir: "/Users/someone/project/subproj/"
+            });
             expect(useMap.isConfigured).toBe(true);
             expect(useMap.length).toEqual(3);
             expect(useMap.map.name1).toEqual("/Users/someone/project/src/package/module1");
@@ -67,17 +77,20 @@ describe("UseMap", function() {
         });
 
         it("should support an additional srcDir argument", function() {
-           var nameMap = {
-               'name1': './package/module1',
-               'name2': './package/subpackage/module2',
-               'name3': './module3'
-           };
-           useMap.config(nameMap, "/Users/someone/project/", "./src");
-           expect(useMap.isConfigured).toBe(true);
-           expect(useMap.length).toEqual(3);
-           expect(useMap.map.name1).toEqual("/Users/someone/project/src/package/module1");
-           expect(useMap.map.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
-           expect(useMap.map.name3).toEqual("/Users/someone/project/src/module3");
+            var nameMap = {
+                'name1': './package/module1',
+                'name2': './package/subpackage/module2',
+                'name3': './module3'
+            };
+            useMap.config(nameMap, {
+                rootDir: "/Users/someone/project/",
+                srcDir: "./src"
+            });
+            expect(useMap.isConfigured).toBe(true);
+            expect(useMap.length).toEqual(3);
+            expect(useMap.map.name1).toEqual("/Users/someone/project/src/package/module1");
+            expect(useMap.map.name2).toEqual("/Users/someone/project/src/package/subpackage/module2");
+            expect(useMap.map.name3).toEqual("/Users/someone/project/src/module3");
         });
 
         it("should throw an error when rootDir is not defined", function() {
@@ -99,14 +112,15 @@ describe("UseMap", function() {
 
     describe("getPath", function() {
         beforeEach(function() {
-            useMap.config(
+            useMap.config({
+                    'name1': './package/module1',
+                    'name2': './package/subpackage/module2',
+                    'name3': './module3'
+                },
                 {
-                   'name1': './package/module1',
-                   'name2': './package/subpackage/module2',
-                   'name3': './module3'
-                }, 
-                "/Users/someone/project/",
-                "./src"
+                    rootDir: "/Users/someone/project/",
+                    srcDir: "./src"
+                }
             );
         });
 
@@ -119,6 +133,23 @@ describe("UseMap", function() {
         it("should return undefined for an invalid name", function() {
             var p = useMap.getPath('name0');
             expect(p).not.toBeDefined();
+        });
+    });
+
+    describe("isFileLoaded", function() {
+        it("should return true when a certain config file has already been loaded", function() {
+            useMap.config({
+                    'name1': './package/module1',
+                    'name2': './package/subpackage/module2',
+                    'name3': './module3'
+                },
+                {
+                    rootDir: "/Users/someone/project/",
+                    file: "/Users/someone/project/use.json"
+                }
+            );
+            expect(useMap.isFileLoaded("/Users/someone/project/use.json")).toEqual(true);
+            expect(useMap.isFileLoaded("/Users/someone/otherProject/use.json")).toEqual(false);
         });
     });
 });

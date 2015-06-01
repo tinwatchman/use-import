@@ -1,15 +1,14 @@
 describe("UseLoader", function() {
     var UseLoader = require('../lib/loader');
     var fs = require('fs-extra');
-    var os = require('os');
     var path = require('path');
     var UseMap = require('../lib/UseMap');
 
     var loader;
-    var tmpDir = path.join(os.tmpdir(), "./UseLoaderJasmine" + Date.now() + "/");
+    var tmpDir = path.join(__dirname, "./UseLoaderJasmine" + Date.now() + "/");
 
     beforeAll(function() {
-        fs.ensureDir(tmpDir);
+        fs.ensureDirSync(tmpDir);
     });
 
     beforeEach(function() {
@@ -93,8 +92,8 @@ describe("UseLoader", function() {
             var result = loader.load(rootPath, useMap);
             expect(result).toBe(true);
             expect(useMap.isConfigured).toBe(true);
-            expect(root.indexOf(useMap.rootDir)).toEqual(0); // starting slash issue here
             expect(useMap.map.name).toEqual(path.join(root, "./path"));
+            expect(useMap.isFileLoaded(configFilePath)).toBe(true);
         });
 
         it("should be able to handle data from a project.json file", function() {
@@ -122,6 +121,5 @@ describe("UseLoader", function() {
             expect(result).toBe(false);
             expect(useMap.isConfigured).toBe(false);
         });
-
     });
 });

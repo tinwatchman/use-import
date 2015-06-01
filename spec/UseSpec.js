@@ -2,8 +2,8 @@ describe("UseImporter", function() {
     var fs = require('fs-extra');
     var path = require('path');
     var _ = require('underscore');
-    
-    describe("use and use.load", function() {
+
+    describe("use, use.load, and use.isLoaded", function() {
         var useJsonPath = path.join(__dirname, "./use.json");
         var myClassPath = path.join(__dirname, "./MyClass.js");
 
@@ -32,8 +32,47 @@ describe("UseImporter", function() {
             expect(MyClass).toBeDefined();
             expect(MyClass.hello).toEqual("Hello!");
         });
+
+        it("should throw an error when use.load has already been " + 
+            "called", function() {
+            var err = null;
+            try {
+                var use = require('../useimport').load();
+            } catch (e) {
+                err = e;
+            }
+            expect(err).not.toBeNull();
+            expect(err.message).toEqual("USE_IMPORTER_LOAD_CALLED_TWICE");
+        });
+
+        describe("use.isLoaded", function() {
+            it("should return true when load has been called", function() {
+                var use = require('../useimport');
+                expect(use.isLoaded).toBe(true);
+            });
+        });
     });
 
+    describe("use.load filePath parameter", function() {
+        var jsonPath = path.join(__dirname, "./something.json");
+
+        beforeEach(function() {
+            fs.writeJsonSync(jsonPath, {
+                "MyClass": "./MyClass"
+            });
+        });
+
+        afterEach(function() {
+            fs.removeSync(jsonPath);
+        });
+
+        it("should load config data from a specific file path", function() {
+            var use = require("../useimport").load(jsonPath);
+            var p = use.resolve("MyClass");
+            expect(p).toEqual(path.join(__dirname, "./MyClass"));
+        });
+    });
+    
     describe("use and use.config", function() {
         var myClassPath = path.join(__dirname, "./MyClass.js");
 
