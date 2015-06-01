@@ -74,6 +74,10 @@ var use = require('use-import').config({
 
 To see a working example of how to use `use-import` in a project, see [example/example-app.js](https://github.com/tinwatchman/use-import/blob/master/example/example-app.js) and [example/use.json](https://github.com/tinwatchman/use-import/blob/master/example/use.json). For an example of in-code configuration, see [example/in-code-config-example.js](https://github.com/tinwatchman/use-import/blob/master/example/in-code-config-example.js).
 
+## Changelist
+
++ 0.1.1 - add use.unload function; allow use.load() to accept direct filepath to JSON file.
+
 ## Contributing
 
 Bug reports, feature requests, pull requests and general feedback would all be appreciated.
