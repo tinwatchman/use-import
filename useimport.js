@@ -61,7 +61,9 @@ module.exports = (function() {
             if (arguments.length > 1 && !_.isEmpty(arguments[1])) {
                 useMap.config(map, arguments[1]);
             } else if (!useMap.isConfigured) {
-                useMap.config(map, pathlib.dirname(module.parent.filename));
+                useMap.config(map, {
+                    rootDir: pathlib.dirname(module.parent.filename)
+                });
             } else {
                 useMap.config(map);
             }
