@@ -152,4 +152,29 @@ describe("UseMap", function() {
             expect(useMap.isFileLoaded("/Users/someone/otherProject/use.json")).toEqual(false);
         });
     });
+
+    describe("dispose", function() {
+        it("should exist", function() {
+            expect(useMap.dispose).toBeDefined();
+        });
+
+        it("should dispose of all data within the map", function() {
+            useMap.config({
+                    'name1': './package/module1',
+                    'name2': './package/subpackage/module2',
+                    'name3': './module3'
+                },
+                {
+                    rootDir: "/Users/someone/project/",
+                    file: "/Users/someone/project/use.json"
+                }
+            );
+            useMap.dispose();
+            expect(useMap.isConfigured).toBe(false);
+            expect(useMap.length).toEqual(0);
+            expect(useMap.files.length).toEqual(0);
+            expect(useMap.map['name1']).not.toBeDefined();
+            expect(useMap.rootDir).toBeNull();
+        });
+    });
 });

@@ -53,6 +53,21 @@ describe("UseImporter", function() {
         });
     });
 
+    describe("use.unload", function() {
+        it("should exist", function() {
+            var use = require('../useimport');
+            expect(use.unload).toBeDefined();
+            expect(_.isFunction(use.unload)).toBe(true);
+        });
+
+        it("should clear all loaded data", function() {
+            var use = require('../useimport');
+            expect(use.isLoaded).toBe(true);
+            use.unload();
+            expect(use.isLoaded).toBe(false);
+        });
+    });
+
     describe("use.load filePath parameter", function() {
         var jsonPath = path.join(__dirname, "./something.json");
 

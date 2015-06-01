@@ -1,11 +1,11 @@
 module.exports = (function() {
     "use strict";
 
-    var _ = require('underscore');
-    var pathlib = require('path');
+    var _ = require("underscore");
+    var pathlib = require("path");
 
-    var UseMap = require('./lib/usemap');
-    var UseLoader = require('./lib/loader');
+    var UseMap = require("./lib/usemap");
+    var UseLoader = require("./lib/loader");
 
     var UseImporter = function() {
         var self = this,
@@ -31,7 +31,7 @@ module.exports = (function() {
 
         /**
          * Loads config information from a use.json or project.json file on the
-         * requesting module's filepath
+         * requesting module"s filepath
          * @param  {String} filePath Optional. Path to a specific JSON config 
          *                           file to load.
          * @return {Function}        Returns the use function. Useful for 
@@ -80,8 +80,16 @@ module.exports = (function() {
             return useMap.getPath(name);
         };
 
+        /**
+         * Clears out all loaded data. Mostly useful for unit tests, or other
+         * situations where there might not be just one entry point.
+         */
+        this.use.unload = function() {
+            useMap.dispose();
+        };
+
         /* getter for isLoaded */
-        this.use.__defineGetter__('isLoaded', function() {
+        this.use.__defineGetter__("isLoaded", function() {
             return useMap.isConfigured;
         });
 
