@@ -2,6 +2,7 @@ describe("UseImporter", function() {
     var fs = require('fs-extra');
     var path = require('path');
     var _ = require('underscore');
+    var replaceBackSlashes = require("../lib/util").replaceBackSlashes;
 
     describe("use, use.load, and use.isLoaded", function() {
         var useJsonPath = path.join(__dirname, "./use.json");
@@ -84,7 +85,7 @@ describe("UseImporter", function() {
         it("should load config data from a specific file path", function() {
             var use = require("../useimport").load(jsonPath);
             var p = use.resolve("MyClass");
-            expect(p).toEqual(path.join(__dirname, "./MyClass"));
+            expect(p).toEqual(replaceBackSlashes(path.join(__dirname, "./MyClass")));
         });
     });
     

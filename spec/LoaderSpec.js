@@ -2,7 +2,8 @@ describe("UseLoader", function() {
     var UseLoader = require('../lib/loader');
     var fs = require('fs-extra');
     var path = require('path');
-    var UseMap = require('../lib/UseMap');
+    var UseMap = require('../lib/usemap');
+    var replaceBackSlashes = require('../lib/util').replaceBackSlashes;
 
     var loader;
     var tmpDir = path.join(__dirname, "./UseLoaderJasmine" + Date.now() + "/");
@@ -92,7 +93,7 @@ describe("UseLoader", function() {
             var result = loader.load(rootPath, useMap);
             expect(result).toBe(true);
             expect(useMap.isConfigured).toBe(true);
-            expect(useMap.map.name).toEqual(path.join(root, "./path"));
+            expect(useMap.map.name).toEqual(replaceBackSlashes(path.join(root, "./path")));
             expect(useMap.isFileLoaded(configFilePath)).toBe(true);
         });
 
@@ -112,7 +113,7 @@ describe("UseLoader", function() {
             var result = loader.load(rootPath, useMap);
             expect(result).toBe(true);
             expect(useMap.isConfigured).toBe(true);
-            expect(useMap.map.name).toEqual(path.join(root, "./src", "./path"));
+            expect(useMap.map.name).toEqual(replaceBackSlashes(path.join(root, "./src", "./path")));
         });
 
         it("should return false when a config file isn't found", function() {
