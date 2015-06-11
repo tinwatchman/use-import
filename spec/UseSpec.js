@@ -33,19 +33,7 @@ describe("UseImporter", function() {
             expect(MyClass).toBeDefined();
             expect(MyClass.hello).toEqual("Hello!");
         });
-
-        it("should throw an error when use.load has already been " + 
-            "called", function() {
-            var err = null;
-            try {
-                var use = require('../useimport').load();
-            } catch (e) {
-                err = e;
-            }
-            expect(err).not.toBeNull();
-            expect(err.message).toEqual("USE_IMPORTER_LOAD_CALLED_TWICE");
-        });
-
+        
         describe("use.isLoaded", function() {
             it("should return true when load has been called", function() {
                 var use = require('../useimport');

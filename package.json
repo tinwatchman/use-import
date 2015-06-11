@@ -1,6 +1,6 @@
 {
   "name": "use-import",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Get modules by name, not filepath",
   "main": "useimport.js",
   "scripts": {
@@ -17,6 +17,7 @@
   },
   "keywords": [
     "use",
+    "use-import",
     "require",
     "import",
     "namespace",

@@ -26,7 +26,7 @@ To configure your project's names, create a new file in your project's root dire
 }
 ```
 
-(If this seems like a hassle to you, you may want to take a look at [projectjs](https://github.com/tinwatchman/projectjs). Note that `use-import` will also accept configuration in the form of a *project.json* file.)
+(If this seems like a hassle to you, you may want to take a look at [use-automapper](https://www.npmjs.com/package/use-automapper) or [projectjs](https://www.npmjs.com/package/projectjs). Note that `use-import` will also accept configuration in the form of a *project.json* file.)
 
 For another way to handle configuration, see [In-Code Configuration](#in_code_configuration) below.
 
@@ -76,7 +76,11 @@ To see a working example of how to use `use-import` in a project, see [example/e
 
 ## Changelist
 
-+ 0.1.1 - add use.unload function; allow use.load() to accept direct filepath to JSON file.
++ 0.1.2
+  - removed USE_IMPORTER_LOAD_CALLED_TWICE error. Proved to be too much of a pain in situations involving multiple entry points (like unit tests).
++ 0.1.1
+  - added use.unload function
+  - use.load() can now accept direct filepath to JSON file.
 
 ## Contributing
 

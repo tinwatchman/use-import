@@ -104,6 +104,7 @@ module.exports = (function() {
             if (arguments.length > 0 && !_.isEmpty(arguments[0])) {
                 filePath = arguments[0];
             }
+            // load if not configured
             if (!useMap.isConfigured || 
                 (!_.isUndefined(filePath) && !useMap.isFileLoaded(filePath))) {
                 var loader = new UseLoader();
@@ -116,8 +117,6 @@ module.exports = (function() {
                 if (!r) {
                     throw new Error("USE_IMPORTER_CONFIG_FILE_NOT_FOUND");
                 }
-            } else {
-                throw new Error("USE_IMPORTER_LOAD_CALLED_TWICE");
             }
         };
     };
